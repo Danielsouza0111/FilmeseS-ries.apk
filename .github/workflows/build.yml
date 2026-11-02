@@ -1,1 +1,40 @@
 
+name: Gerar APK Daniel Souza
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Configurar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Extrair projeto ZIP
+        run: |
+          unzip -o DanielSouzaAndroid-Projeto.zip -d projeto
+          echo "Arquivos extraídos:"
+          ls -la projeto
+
+      - name: Gerar APK
+        run: |
+          cd projeto
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Disponibilizar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: DanielSouza-APK
+          path: projeto/**/build/outputs/apk/debug/*.apk
