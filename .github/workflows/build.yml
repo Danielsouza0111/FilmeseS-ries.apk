@@ -1,5 +1,5 @@
 
-name: Gerar APK Daniel Souza
+name: Gerar APK Daniel Souza.
 
 'on':
   workflow_dispatch:
